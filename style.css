@@ -1,0 +1,21 @@
+/* 
+   watchThingP5
+   
+   By Fer Ysunza, 26/01/24. 
+*/
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333; /* Dark background for the entire page */
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    border: none;
+}

@@ -7,6 +7,7 @@
 let initialDraw = true;
 let lastSecond;
 let startTime;
+let initialSecondsFraction;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -15,10 +16,14 @@ function setup() {
 }
 
 function draw() {
+  // Delay drawing until the second changes to ensure accurate initial seconds position
   if (initialDraw) {
-    if (second() != lastSecond) { // Wait until the second changes
-      startTime = millis(); // Reset the start time once the second changes
-      initialDraw = false; // Now ready to draw smoothly
+    let currentSecond = second();
+    if (currentSecond != lastSecond) { // Check if the second has changed
+      // Now that the second has changed, calculate the initial seconds fraction
+      startTime = millis(); // Reset the start time
+      initialSecondsFraction = currentSecond / 60; // Calculate the initial fraction of the seconds
+      initialDraw = false; // Start drawing smoothly
     } else {
       return; // Skip this frame and wait until the second changes
     }
@@ -29,7 +34,7 @@ function draw() {
   let m = minute();
   let s = second();
 
-  // Smooth calculation for the minute semi-circle
+  // Calculate the total minutes including the fraction of the current second
   let totalMinutes = m + s / 60;
   let minuteAngle = map(totalMinutes, 0, 60, 0, 360);
 
@@ -39,8 +44,8 @@ function draw() {
   noFill();
   arc(width / 2, height / 2, 400, 400, 270, minuteAngle + 270);
 
-  // Smooth calculation for the hour semi-circle
-  let totalHours = h % 12 + m / 60 + s / 3600;
+  // Calculate the total hours including the fraction of the current minute
+  let totalHours = h % 12 + totalMinutes / 60;
   let hourAngle = map(totalHours, 0, 12, 0, 360);
 
   // Drawing the hour semi-circle
@@ -48,9 +53,9 @@ function draw() {
   strokeWeight(20); // Thicker stroke for hours
   arc(width / 2, height / 2, 350, 350, 270, hourAngle + 270);
 
-  // Smooth calculation for the seconds semi-circle
+  // Smooth calculation for the seconds semi-circle based on the initial fraction
   let elapsedTime = millis() - startTime;
-  let currentSecondFraction = (elapsedTime % 60000) / 60000;
+  let currentSecondFraction = initialSecondsFraction + (elapsedTime % 60000) / 60000;
   let secondAngle = map(currentSecondFraction % 1, 0, 1, 0, 360);
 
   // Drawing the seconds semi-circle

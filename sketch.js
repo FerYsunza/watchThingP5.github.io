@@ -10,41 +10,34 @@ function setup() {
 }
 
 function draw() {
+  background(0);
   let now = new Date(); // Get the current system time
   let h = now.getHours();
   let m = now.getMinutes();
   let s = now.getSeconds();
   let ms = now.getMilliseconds();
 
-  background('black');
-
-  // Smooth calculation for the minute semi-circle
-  let totalMinutes = m + s / 60;
-  let minuteAngle = map(totalMinutes, 0, 60, 0, 360);
-
-  // Drawing the minute semi-circle
-  stroke(0, 255, 0); // Green color for minutes
-  strokeWeight(10); // Thinner stroke for minutes
-  noFill();
-  arc(width / 2, height / 2, 400, 400, 270, minuteAngle + 270);
-
-  // Smooth calculation for the hour semi-circle
-  let totalHours = h % 12 + totalMinutes / 60;
-  let hourAngle = map(totalHours, 0, 12, 0, 360);
-
-  // Drawing the hour semi-circle
-  stroke(255, 0, 0); // Red color for hours
-  strokeWeight(20); // Thicker stroke for hours
-  arc(width / 2, height / 2, 350, 350, 270, hourAngle + 270);
-
-  // Smooth calculation for the seconds semi-circle using current time
+  // Calculate the smooth position of the seconds, minutes, and hours
   let totalSeconds = s + ms / 1000;
-  let secondAngle = map(totalSeconds, 0, 60, 0, 360);
+  let secondsAngle = map(totalSeconds, 0, 60, 0, 360);
+  
+  let totalMinutes = m + s / 60;
+  let minutesAngle = map(totalMinutes, 0, 60, 0, 360);
+  
+  let totalHours = h % 12 + totalMinutes / 60;
+  let hoursAngle = map(totalHours, 0, 12, 0, 360);
 
-  // Drawing the seconds semi-circle
-  stroke('skyblue'); // Skyblue color for seconds
-  strokeWeight(2); // Even thinner stroke for seconds
-  arc(width / 2, height / 2, 450, 450, 270, secondAngle + 270);
+  // Drawing the seconds "slice" (bottom layer)
+  fill('skyblue'); // Skyblue color for seconds
+  arc(width / 2, height / 2, 450, 450, 270, secondsAngle + 270, PIE);
+
+  // Drawing the minutes "slice" (middle layer)
+  fill(0, 255, 0); // Green color for minutes
+  arc(width / 2, height / 2, 400, 400, 270, minutesAngle + 270, PIE);
+
+  // Drawing the hour "slice" (top layer)
+  fill(255, 0, 0); // Red color for hours
+  arc(width / 2, height / 2, 350, 350, 270, hoursAngle + 270, PIE);
 
   // Displaying the digital time using a monospace font
   fill(255); // White color for text

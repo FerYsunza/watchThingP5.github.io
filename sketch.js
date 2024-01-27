@@ -31,7 +31,7 @@ function draw() {
   push();
   translate(width / 2, height / 2);
   rotate(frameCount / 60 * 360);
-  stroke(0);
+  stroke('skyblue');
   line(0, 0, 100, 0);
   pop();
 

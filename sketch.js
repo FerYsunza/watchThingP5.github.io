@@ -4,9 +4,14 @@
 // By Fer Ysunza, 26/01/24.
 //
 
+let initialSecondAngle;
+let startTime;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
+  startTime = millis(); // Store the start time
+  initialSecondAngle = map(second(), 0, 60, 0, 360) - 90; // Initial angle based on current second
 }
 
 function draw() {
@@ -27,11 +32,15 @@ function draw() {
   let end2 = map(h % 12, 0, 12, 0, 360);
   arc(width / 2, height / 2, 350, 350, 270, end2 + 270);
 
+  // Calculate the position of the seconds hand
+  let elapsedTime = millis() - startTime;
+  let secondAngle = initialSecondAngle + map(elapsedTime % 60000, 0, 60000, 0, 360);
+
   // Drawing the seconds hand
   push();
   translate(width / 2, height / 2);
-  rotate(frameCount / 60 * 360);
-  stroke('skyblue');
+  rotate(secondAngle);
+  stroke(skyblue);
   line(0, 0, 100, 0);
   pop();
 

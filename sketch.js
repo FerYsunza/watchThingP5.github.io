@@ -16,7 +16,7 @@ function draw() {
   let s = now.getSeconds();
   let ms = now.getMilliseconds();
 
-  background(0);
+  background('black');
 
   // Smooth calculation for the minute semi-circle
   let totalMinutes = m + s / 60;
@@ -46,10 +46,11 @@ function draw() {
   strokeWeight(2); // Even thinner stroke for seconds
   arc(width / 2, height / 2, 450, 450, 270, secondAngle + 270);
 
-  // Displaying the digital time
-  noStroke();
+  // Displaying the digital time using a monospace font
   fill(255); // White color for text
+  noStroke();
   textSize(32);
+  textFont('monospace'); // Using monospace for a digital look
   textAlign(CENTER, CENTER);
   text(nf(h, 2) + ':' + nf(m, 2) + ':' + nf(s, 2), width / 2, height / 2);
 }
